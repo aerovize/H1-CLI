@@ -26,14 +26,15 @@ class H1:
             print(err)
             return err
 
-    def http_get_program(self, program_name):
+    def http_get_program(self, program_handle):
         # Make a get reguest to the API to fetch a single program.
-        # Requires the name of the program
-        # https://api.hackerone.com/v1/hackers/programs/acmecorp
+        # Requires the handle name of the program
+        # https://api.hackerone.com/v1/hackers/programs/acme
         try:
-            resp = requests.get(f'https://api.hackerone.com/v1/hackers/programs/{program_name}',
+            resp = requests.get(f'https://api.hackerone.com/v1/hackers/programs/{program_handle}',
                                 auth=(self.username, self.token), headers=self.header)
             return resp.json()
-        except ConnectionError as err:
-            print(err)
-            return err
+        except requests.exceptions.HTTPError:
+            # if a invalid handle is entered, we will not get a 200 status code
+            # so return the status code.
+            return resp.status_code

@@ -24,3 +24,5 @@ Options:
 [2] Seach for a specific program
 
 ```
+
+### A query for a single program requires the handle of the program, which can be obatined by listing all programs.
